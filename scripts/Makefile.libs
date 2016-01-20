@@ -1,0 +1,48 @@
+# This file makes the dynamic libraries and copies them in ../lib folder
+# *_build target "makes" the libraries.
+# *_cp copies the libraries to ../lib and the header files to ../header_files
+# *_clean removes the libraries from their folders as well as ../lib folder
+
+#ASSUMPTIONS: the name of library files are : libwfmalloc.so,
+#	      the name of the header files are : wfmalloc.h,
+#	      lib and header_files folders are found in ../ folder
+#             make files of allocators are found in the folders as defined by their path variables
+#	      hoard is built for 64 bit system, else change the argument to make
+
+LIBS = wfmalloc hoard
+CLEAN_LIBS = wfmalloc_clean hoard_clean
+LIB_PATH = ../lib
+HEADER_PATH = ../header_files
+WFMALLOC_PATH = ../../wfmalloc
+HOARD_PATH = ../../Hoard
+
+# common targets
+all: $(LIBS)
+
+# targets for wfmalloc
+wfmalloc: wfmalloc_build wfmalloc_cp
+
+wfmalloc_build:
+	cd $(WFMALLOC_PATH)/Debug; make; cd -
+
+wfmalloc_cp:
+	cp $(WFMALLOC_PATH)/Debug/libwfmalloc.so $(LIB_PATH); cp $(WFMALLOC_PATH)/src/wfmalloc.h $(HEADER_PATH) 
+
+wfmalloc_clean:
+	cd $(WFMALLOC_PATH)/Debug; make clean; cd -; rm -f $(LIB_PATH)/libwfmalloc.so
+
+# targets for hoard
+hoard: hoard_build hoard_cp
+
+hoard_build:
+	cd $(HOARD_PATH)/src; make -f GNUmakefile all; cd -
+
+hoard_cp:
+	cp $(HOARD_PATH)/src/libhoard.so $(LIB_PATH);
+
+hoard_clean:
+	cd $(HOARD_PATH)/src; make -f GNUmakefile clean; cd -; rm -f $(LIB_PATH)/libhoard.so
+
+
+
+clean: $(CLEAN_LIBS)

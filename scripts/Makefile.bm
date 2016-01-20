@@ -1,0 +1,16 @@
+CLEAN_EXEC = linuxScalability_wfmalloc_clean
+SRC_PATH = ../benchmarks/src
+LIB_PATH_BIN = ../lib       # this is relative to the folder where binaries are placed, i.e. benchmarks/folder
+LIB_PATH_COM = ../lib
+EXEC_PATH = ../benchmarks/bin
+EXEC = $(EXEC_PATH)/linuxScalability
+
+all: $(EXEC)
+
+$(EXEC_PATH)/linuxScalability: $(SRC_PATH)/linuxScalability.c
+	gcc -std=c99 -L$(LIB_PATH_COM) -Wl,-rpath=$(LIB_PATH_BIN) $(SRC_PATH)/linuxScalability.c -lwfmalloc -lpthread -o $(EXEC_PATH)/linuxScalability
+
+linuxScalability_wfmalloc_clean: 
+	cd $(EXEC_PATH); rm -f linuxScalability; cd -
+
+clean: $(CLEAN_EXEC)
