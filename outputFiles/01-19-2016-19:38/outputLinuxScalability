@@ -1,9 +1,0 @@
-<nThreads> <objectSize> <noOfIterations> <glibcmalloc> <wfmalloc> <hoard> <sequential_allocator_all_work>
-1 8 100 129 92 131 100
-2 8 100 102 115 141 101
-3 8 100 125 130 168 104
-4 8 100 93 107 155 113
-5 8 100 324 145 230 116
-6 8 100 250 166 229 121
-7 8 100 558 146 310 128
-8 8 100 659 320 280 125

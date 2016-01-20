@@ -86,6 +86,6 @@ int main(int argc, char* argv[]) {
     }
 
     gettimeofday (&end, NULL);
-    long int timeTaken = ((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec ));
-    printf("%ld", timeTaken);
+    long double timeTaken = ((end.tv_sec + end.tv_usec / 1000000.0) - (start.tv_sec + start.tv_usec / 1000000.0));
+    printf("%.6Lf", timeTaken);
 }

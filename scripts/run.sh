@@ -14,11 +14,18 @@ elif [ $1 == "build" ];then
 
 else
 
-    currentDate=`date +"%m-%d-%Y-%H:%M"`
+    currentDate=`date +"%Y-%m-%d-%H-%M"`
     mkdir ../outputFiles/$currentDate
+    
     echo "EXECUTING THE BENCHAMARKS"
+    
     echo "Running LinuxScalability"
     ./linuxScalability.sh $currentDate
+    
+    echo "PLOTTING THE OUTPUT"
+    gnuplot -e "outputDir='../outputFiles/$currentDate'" plot_linuxScalability.gp.sh
+
+    
 
 # to check if actually hoard is running, type printf at line 120 of the file Hoard/src/source/libhoard.cpp  
 
