@@ -1,3 +1,7 @@
+// TODO: Difference from the Hoard implementation: Use barriers to ensure that the timing starts only after all the threads have been created
+
+
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>

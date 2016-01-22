@@ -19,13 +19,23 @@ else
     
     echo "EXECUTING THE BENCHAMARKS"
     
-    echo "Running LinuxScalability"
-    ./linuxScalability.sh $currentDate
+    echo "Running Linux Scalability"
+#    ./linuxScalability.sh $currentDate
     
-    echo "PLOTTING THE OUTPUT"
-    gnuplot -e "outputDir='../outputFiles/$currentDate'" plot_linuxScalability.gp.sh
+    echo "Running Cache Scratch"
+#    ./cacheScratch.sh $currentDate
 
-    
+    echo "Running Cache Thrash"
+#    ./cacheThrash.sh $currentDate
+
+    echo "Running Larson"
+#    ./larson.sh $currentDate
+
+    echo "PLOTTING THE OUTPUT"
+#    gnuplot -e "outputDir='../outputFiles/$currentDate'" plot_linuxScalability.gp.sh
+#    gnuplot -e "outputDir='../outputFiles/$currentDate'" plot_cacheScratch.gp.sh
+#    gnuplot -e "outputDir='../outputFiles/$currentDate'" plot_cacheThrash.gp.sh
+     gnuplot -e "outputDir='../outputFiles/$currentDate'" plot_larson.gp.sh
 
 # to check if actually hoard is running, type printf at line 120 of the file Hoard/src/source/libhoard.cpp  
 

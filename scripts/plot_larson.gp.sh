@@ -4,27 +4,30 @@ reset
 # set term dumb
 
 set term png size 1200,1200
-set output outputDir."/linuxScalability.png"
+set output outputDir."/larson.png"
 print outputDir
+
+# number of lines in one plot : ie, number of allocators
+nLines = 3
+nThreads = `head -1 ../configurations/larson`
+nBlocks = "`head -2 ../configurations/larson | tail -1`"
+minSize = "`head -3 ../configurations/larson | tail -1`"
+maxSize = "`head -4 ../configurations/larson | tail -1`"
+timeSlice = "`head -5 ../configurations/larson | tail -1`"
 
 # size x, y tells the percentage of width and height of the plot window.
 # x, y are multiplicative factors of 100%
 set size 1,1
-set multiplot title "Linux Scalability" 
+set multiplot title "Larson: minSize = ". word(minSize,1) . ", maxSize = " . word(maxSize, 1) 
 unset key
-# number of lines in one plot : ie, number of allocators
-nLines = 4
-nThreads = `head -1 ../configurations/linuxScalability`
-objSizes = "`head -2 ../configurations/linuxScalability | tail -1`"
-nIterations = "`head -3 ../configurations/linuxScalability | tail -1`"
 
 # the starting column of time parameter. Before this column are the benchmark parameters.
-startCol = 4 #"`wc -l ../configurations/linuxScalability`"
-nPlotsY = words(objSizes)
-nPlotsX = words(nIterations)
+startCol = 6 #"`wc -l ../configurations/larson`"
+nPlotsY = words(nBlocks)
+nPlotsX = words(timeSlice)
 
 #colors = "red green blue violet pink"
-titles = "glibc-malloc wfmalloc Hoard seq-with-full-work"
+titles = "glibc-malloc wfmalloc Hoard"
 #markers = "1 2 3 5 6"  # ["cross", "3 lines cross", "filled square"]
 #linetype = "1 2 3 4" # ["solid", "dashed", "smaller dashes", "smaller dashes"]
 columns(x) = x + (startCol - 1)
@@ -39,7 +42,7 @@ firstLine = 1
 lastLine = firstLine + (nThreads - 1)
 
 set xlabel "Number of Threads" #font "Times New Roman, 8"
-set ylabel "Time (sec)" #font "Times New Roman, 8"
+set ylabel "# malloc/free pairs" #font "Times New Roman, 8"
 #set key at 0,0 horizontal box
 unset key
 set size sizeX,sizeY
@@ -49,11 +52,11 @@ do for [k=1:nPlotsY] {
     originX = 0;
     originY = originY - deltaY;
     do for [j=1:nPlotsX] {
-	set title "ObjSize=" . word(objSizes,k) . ",nIter=" . word(nIterations,j) #font "Times New Roman, 8"
+	set title "# objects=" . word(nBlocks,k) . ",timeSlice=" . word(timeSlice,j) #font "Times New Roman, 8"
 	set origin originX,originY
         originX = originX + deltaX;
         #plot for [i=1:nLines] filename using 1:columns(i) every ::1::nThreads word(titles, i) lt 2 lc rgb word(colors, i) pt word(markers, i) with linespoints;
-	plot for [i=1:nLines] outputDir."/outputLinuxScalability" using 1:columns(i) every ::firstLine::lastLine title word(titles,i) with linespoints
+	plot for [i=1:nLines] outputDir."/outputLarson" using 1:columns(i) every ::firstLine::lastLine title word(titles,i) with linespoints
 	firstLine = lastLine + 1
 	lastLine = firstLine + (nThreads - 1)
    }

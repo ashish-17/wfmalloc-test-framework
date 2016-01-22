@@ -4,22 +4,24 @@ reset
 # set term dumb
 
 set term png size 1200,1200
-set output outputDir."/linuxScalability.png"
+set output outputDir."/cacheScratch.png"
 print outputDir
+
+# number of lines in one plot : ie, number of allocators
+nLines = 3
+nThreads = `head -1 ../configurations/cacheScratch`
+objSizes = "`head -2 ../configurations/cacheScratch | tail -1`"
+nIterations = "`head -3 ../configurations/cacheScratch | tail -1`"
+nRepetitions = "`head -4 ../configurations/cacheScratch | tail -1`"
 
 # size x, y tells the percentage of width and height of the plot window.
 # x, y are multiplicative factors of 100%
 set size 1,1
-set multiplot title "Linux Scalability" 
+set multiplot title "Cache Scratch with " . word(nRepetitions,1) . "repetitons" 
 unset key
-# number of lines in one plot : ie, number of allocators
-nLines = 4
-nThreads = `head -1 ../configurations/linuxScalability`
-objSizes = "`head -2 ../configurations/linuxScalability | tail -1`"
-nIterations = "`head -3 ../configurations/linuxScalability | tail -1`"
 
 # the starting column of time parameter. Before this column are the benchmark parameters.
-startCol = 4 #"`wc -l ../configurations/linuxScalability`"
+startCol = 5 #"`wc -l ../configurations/linuxScalability`"
 nPlotsY = words(objSizes)
 nPlotsX = words(nIterations)
 
@@ -53,7 +55,7 @@ do for [k=1:nPlotsY] {
 	set origin originX,originY
         originX = originX + deltaX;
         #plot for [i=1:nLines] filename using 1:columns(i) every ::1::nThreads word(titles, i) lt 2 lc rgb word(colors, i) pt word(markers, i) with linespoints;
-	plot for [i=1:nLines] outputDir."/outputLinuxScalability" using 1:columns(i) every ::firstLine::lastLine title word(titles,i) with linespoints
+	plot for [i=1:nLines] outputDir."/outputCacheScratch" using 1:columns(i) every ::firstLine::lastLine title word(titles,i) with linespoints
 	firstLine = lastLine + 1
 	lastLine = firstLine + (nThreads - 1)
    }

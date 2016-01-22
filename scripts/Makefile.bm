@@ -1,16 +1,38 @@
-CLEAN_EXEC = linuxScalability_wfmalloc_clean
+CLEAN_EXEC = linuxScalability_clean cacheScratch_clean cacheThrash_clean larson_clean
 SRC_PATH = ../benchmarks/src
-LIB_PATH_BIN = ../lib       # this is relative to the folder where binaries are placed, i.e. benchmarks/folder
+LIB_PATH_BIN = ../lib  
 LIB_PATH_COM = ../lib
 EXEC_PATH = ../benchmarks/bin
-EXEC = $(EXEC_PATH)/linuxScalability
+EXEC = $(EXEC_PATH)/linuxScalability $(EXEC_PATH)/cacheScratch $(EXEC_PATH)/cacheThrash $(EXEC_PATH)/larson
 
 all: $(EXEC)
 
+# linux scalability targets
 $(EXEC_PATH)/linuxScalability: $(SRC_PATH)/linuxScalability.c
 	gcc -std=c99 -L$(LIB_PATH_COM) -Wl,-rpath=$(LIB_PATH_BIN) $(SRC_PATH)/linuxScalability.c -lwfmalloc -lpthread -o $(EXEC_PATH)/linuxScalability
 
-linuxScalability_wfmalloc_clean: 
+linuxScalability_clean: 
 	cd $(EXEC_PATH); rm -f linuxScalability; cd -
+
+# cache scratch targets
+$(EXEC_PATH)/cacheScratch: $(SRC_PATH)/cacheScratch.c
+	gcc -std=c99 -L$(LIB_PATH_COM) -Wl,-rpath=$(LIB_PATH_BIN) $(SRC_PATH)/cacheScratch.c -lwfmalloc -lpthread -o $(EXEC_PATH)/cacheScratch
+
+cacheScratch_clean: 
+	cd $(EXEC_PATH); rm -f cacheScratch; cd -
+
+# cache thrash targets
+$(EXEC_PATH)/cacheThrash: $(SRC_PATH)/cacheThrash.c
+	gcc -std=c99 -L$(LIB_PATH_COM) -Wl,-rpath=$(LIB_PATH_BIN) $(SRC_PATH)/cacheThrash.c -lwfmalloc -lpthread -o $(EXEC_PATH)/cacheThrash
+
+cacheThrash_clean: 
+	cd $(EXEC_PATH); rm -f cacheThrash; cd -
+
+# larson targets
+$(EXEC_PATH)/larson: $(SRC_PATH)/larson.c
+	gcc -std=c99 -L$(LIB_PATH_COM) -g -Wl,-rpath=$(LIB_PATH_BIN) $(SRC_PATH)/larson.c -lwfmalloc -lpthread -o $(EXEC_PATH)/larson
+
+larson_clean: 
+	cd $(EXEC_PATH); rm -f larson; cd -
 
 clean: $(CLEAN_EXEC)
