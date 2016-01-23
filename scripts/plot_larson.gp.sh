@@ -8,7 +8,7 @@ set output outputDir."/larson.png"
 print outputDir
 
 # number of lines in one plot : ie, number of allocators
-nLines = 3
+nLines = 4
 nThreads = `head -1 ../configurations/larson`
 nBlocks = "`head -2 ../configurations/larson | tail -1`"
 minSize = "`head -3 ../configurations/larson | tail -1`"
@@ -27,7 +27,7 @@ nPlotsY = words(nBlocks)
 nPlotsX = words(timeSlice)
 
 #colors = "red green blue violet pink"
-titles = "glibc-malloc wfmalloc Hoard"
+titles = "glibc-malloc wfmalloc Hoard jemalloc"
 #markers = "1 2 3 5 6"  # ["cross", "3 lines cross", "filled square"]
 #linetype = "1 2 3 4" # ["solid", "dashed", "smaller dashes", "smaller dashes"]
 columns(x) = x + (startCol - 1)

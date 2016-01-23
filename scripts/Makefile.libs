@@ -9,12 +9,13 @@
 #             make files of allocators are found in the folders as defined by their path variables
 #	      hoard is built for 64 bit system, else change the argument to make
 
-LIBS = wfmalloc hoard
-CLEAN_LIBS = wfmalloc_clean hoard_clean
+LIBS = wfmalloc hoard jemalloc
+CLEAN_LIBS = wfmalloc_clean hoard_clean jemalloc_clean
 LIB_PATH = ../lib
 HEADER_PATH = ../header_files
 WFMALLOC_PATH = ../../wfmalloc
 HOARD_PATH = ../../Hoard
+JEMALLOC_PATH = ../../jemalloc
 
 # common targets
 all: $(LIBS)
@@ -44,5 +45,16 @@ hoard_clean:
 	cd $(HOARD_PATH)/src; make -f GNUmakefile clean; cd -; rm -f $(LIB_PATH)/libhoard.so
 
 
+# targets for jemalloc
+jemalloc: jemalloc_build jemalloc_cp
+
+jemalloc_build:
+	cd $(JEMALLOC_PATH); sh ./configure; make; cd -
+
+jemalloc_cp:
+	cp $(JEMALLOC_PATH)/lib/libjemalloc.so $(LIB_PATH);
+
+jemalloc_clean:
+	cd $(JEMALLOC_PATH); make clean; cd -; rm -f $(LIB_PATH)/libjemalloc.so
 
 clean: $(CLEAN_LIBS)

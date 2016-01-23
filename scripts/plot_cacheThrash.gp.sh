@@ -8,7 +8,7 @@ set output outputDir."/cacheThrash.png"
 print outputDir
 
 # number of lines in one plot : ie, number of allocators
-nLines = 3
+nLines = 4
 nThreads = `head -1 ../configurations/cacheThrash`
 objSizes = "`head -2 ../configurations/cacheThrash | tail -1`"
 nIterations = "`head -3 ../configurations/cacheThrash | tail -1`"
@@ -26,7 +26,7 @@ nPlotsY = words(objSizes)
 nPlotsX = words(nIterations)
 
 #colors = "red green blue violet pink"
-titles = "glibc-malloc wfmalloc Hoard seq-with-full-work"
+titles = "glibc-malloc wfmalloc Hoard jemalloc" # seq-with-full-work"
 #markers = "1 2 3 5 6"  # ["cross", "3 lines cross", "filled square"]
 #linetype = "1 2 3 4" # ["solid", "dashed", "smaller dashes", "smaller dashes"]
 columns(x) = x + (startCol - 1)
@@ -41,7 +41,7 @@ firstLine = 1
 lastLine = firstLine + (nThreads - 1)
 
 set xlabel "Number of Threads" #font "Times New Roman, 8"
-set ylabel "Time (usec)" #font "Times New Roman, 8"
+set ylabel "Time (sec)" #font "Times New Roman, 8"
 #set key at 0,0 horizontal box
 unset key
 set size sizeX,sizeY

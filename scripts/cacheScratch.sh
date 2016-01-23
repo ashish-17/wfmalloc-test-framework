@@ -11,7 +11,7 @@ bmName="cacheScratch"
 
 outputFile="../outputFiles/$1/outputCacheScratch" 
 
-argumentsMeaning="<nThreads> <objectSize> <noOfIterations> <noOfRepetitions> <glibcmalloc> <wfmalloc> <hoard>" # <sequential_allocator_all_work>"
+argumentsMeaning="<nThreads> <objectSize> <noOfIterations> <noOfRepetitions> <glibcmalloc> <wfmalloc> <hoard> <>jemalloc>" # <sequential_allocator_all_work>"
 
 allocatorLibPath="../lib"
 
@@ -52,11 +52,13 @@ do
 	do
 	    c=0  # 0 => glibc malloc, 1 => wfmalloc, 2 => hoard
 	    output="$threadIndex $objIndex $iterIndex $repetition"
-	    while [ $c -le 2 ]
+	    while [ $c -le 3 ]
 	    do
                 if [ $c == 2 ]; then
                     export LD_PRELOAD="$allocatorLibPath/libhoard.so"
-                else
+	        elif [ $c == 3 ]; then
+		    export LD_PRELOAD="$allocatorLibPath/libjemalloc.so"
+	        else
                     unset LD_PRELOAD
                 fi
 	        temp="$c $threadIndex $objIndex $iterIndex $repetition"  

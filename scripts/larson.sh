@@ -11,7 +11,7 @@ bmName="larson"
 
 outputFile="../outputFiles/$1/outputLarson" 
 
-argumentsMeaning="<nThreads> <numBlocks> <minObjectSize> <maxObjectSize> <timeSlice> <glibcmalloc> <wfmalloc> <hoard>"
+argumentsMeaning="<nThreads> <numBlocks> <minObjectSize> <maxObjectSize> <timeSlice> <glibcmalloc> <wfmalloc> <hoard> <jemalloc>"
 
 allocatorLibPath="../lib"
 
@@ -59,11 +59,13 @@ do
 		do
 	    	    c=0  # 0 => glibc malloc, 1 => wfmalloc, 2 => hoard
 	    	    output="$threadIndex $nBlocksIndex $minObjSizeIndex $maxObjSizeIndex $timeSliceIndex"
-	    	    while [ $c -le 2 ]
+	    	    while [ $c -le 3 ]
 	    	    do
                 	if [ $c == 2 ]; then
                     	    export LD_PRELOAD="$allocatorLibPath/libhoard.so"
-                	else
+		        elif [ $c == 3 ]; then
+                            export LD_PRELOAD="$allocatorLibPath/libjemalloc.so"
+		        else
                     	    unset LD_PRELOAD
                 	fi
 	        	temp="$c $threadIndex $nBlocksIndex $minObjSizeIndex $maxObjSizeIndex $timeSliceIndex"  
