@@ -38,8 +38,8 @@ deltaX = 1.0/nPlotsX
 deltaY = (1.0-titleMargin)/nPlotsY
 sizeX = deltaX
 sizeY = deltaY
-firstLine = 1
-lastLine = firstLine + (nThreads - 1)
+firstLine = 2
+lastLine = firstLine + (nThreads - 2)
 
 set xlabel "Number of Threads" #font "Times New Roman, 8"
 set ylabel "# malloc/free pairs" #font "Times New Roman, 8"
@@ -57,8 +57,8 @@ do for [k=1:nPlotsY] {
         originX = originX + deltaX;
         #plot for [i=1:nLines] filename using 1:columns(i) every ::1::nThreads word(titles, i) lt 2 lc rgb word(colors, i) pt word(markers, i) with linespoints;
 	plot for [i=1:nLines] outputDir."/outputLarson" using 1:columns(i) every ::firstLine::lastLine title word(titles,i) with linespoints
-	firstLine = lastLine + 1
-	lastLine = firstLine + (nThreads - 1)
+	firstLine = lastLine + 2
+	lastLine = firstLine + (nThreads - 2)
    }
 }
 
