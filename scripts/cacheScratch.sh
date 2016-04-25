@@ -11,7 +11,7 @@ bmName="cacheScratch"
 
 outputFile="../outputFiles/$1/outputCacheScratch" 
 
-argumentsMeaning="<nThreads> <objectSize> <noOfIterations> <noOfRepetitions> <glibcmalloc> <wfmalloc> <hoard> <>jemalloc>" # <sequential_allocator_all_work>"
+argumentsMeaning="<nThreads> <objectSize> <noOfIterations> <noOfRepetitions> <glibcmalloc> <wfmalloc> <hoard> <jemalloc>" # <sequential_allocator_all_work>"
 
 allocatorLibPath="../lib"
 

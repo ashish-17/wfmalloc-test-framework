@@ -20,8 +20,9 @@ typedef struct _ThreadData {
 
 void* worker(void* data) {
     ThreadData *threadData = (ThreadData*) data;
-    char *ptr[threadData->iterations];
-    
+    //char *ptr[threadData->iterations];
+    char **ptr = (char**) malloc(sizeof(char*) * threadData->iterations);
+
     for (int i = 0; i < threadData->iterations; i++) {
         ptr[i] = malloc(threadData->objSize);
     }
@@ -29,12 +30,14 @@ void* worker(void* data) {
     for (int i = 0; i < threadData->iterations; i++) {
 	free(ptr[i]);
     }
+
+    free(ptr);
     return NULL;
 }
 
 void* workerWaitFreePool(void* data) {
     ThreadData *threadData = (ThreadData*) data;
-    char *ptr[threadData->iterations];
+    char **ptr = (char**) malloc(sizeof(char*) * threadData->iterations);
     
     for (int i = 0; i < threadData->iterations; i++) {
         ptr[i] = wfmalloc(threadData->objSize, threadData->threadId);
@@ -42,7 +45,8 @@ void* workerWaitFreePool(void* data) {
 
     for (int i = 0; i < threadData->iterations; i++) {
         wffree(ptr[i]);
-    }   
+    }
+    free(ptr);   
     return NULL;
 }
 
@@ -92,4 +96,9 @@ int main(int argc, char* argv[]) {
     gettimeofday (&end, NULL);
     long double timeTaken = ((end.tv_sec + end.tv_usec / 1000000.0) - (start.tv_sec + start.tv_usec / 1000000.0));
     printf("%.6Lf", timeTaken);
+/*
+    if (allocatorNo == 1) {
+        wfstats();
+    }
+    */
 }

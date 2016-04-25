@@ -1,5 +1,6 @@
+#! /bin/bash
+
 # this file executes everything
-#!/bin/bash
 
 if [ $1 == "clean" ];then
     make -f Makefile.libs clean
@@ -23,7 +24,7 @@ else
     ./linuxScalability.sh $currentDate
     
     echo "Running Cache Scratch"
-    ./cacheScratch.sh $currentDate
+   ./cacheScratch.sh $currentDate
 
     echo "Running Cache Thrash"
     ./cacheThrash.sh $currentDate

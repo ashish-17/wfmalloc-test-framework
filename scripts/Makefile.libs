@@ -24,13 +24,13 @@ all: $(LIBS)
 wfmalloc: wfmalloc_build wfmalloc_cp
 
 wfmalloc_build:
-	cd $(WFMALLOC_PATH)/Debug; make; cd -
+	cd $(WFMALLOC_PATH)/Release; make; cd -
 
 wfmalloc_cp:
-	cp $(WFMALLOC_PATH)/Debug/libwfmalloc.so $(LIB_PATH); cp $(WFMALLOC_PATH)/src/wfmalloc.h $(HEADER_PATH) 
+	cp $(WFMALLOC_PATH)/Release/libwfmalloc.so $(LIB_PATH); cp $(WFMALLOC_PATH)/src/wfmalloc.h $(HEADER_PATH) 
 
 wfmalloc_clean:
-	cd $(WFMALLOC_PATH)/Debug; make clean; cd -; rm -f $(LIB_PATH)/libwfmalloc.so
+	cd $(WFMALLOC_PATH)/Release; make clean; cd -; rm -f $(LIB_PATH)/libwfmalloc.so
 
 # targets for hoard
 hoard: hoard_build hoard_cp
